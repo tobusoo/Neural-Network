@@ -1,0 +1,5 @@
+add_subdirectory(proimage)
+add_subdirectory(image_dataset)
+add_subdirectory(train)
+add_subdirectory(test)
+add_subdirectory(visual_app)
