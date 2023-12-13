@@ -248,23 +248,3 @@ json NN::save()
 
     return model;
 }
-
-// void NN::print()
-// {
-//     for (size_t i = 0; i < m_layers_count - 1; i++) {
-//         if (i == 0) {
-//             printf("Input:\n");
-//             matrix_print(NN_INPUT(this));
-//         } else {
-//             printf("activ %zu: \n", i);
-//             matrix_print(a[i]);
-//         }
-//         printf("weights %zu: \n", i);
-//         matrix_print(w[i]);
-//         printf("bieses %zu: \n", i);
-//         matrix_print(b[i]);
-//     }
-
-//     printf("\noutput\n");
-//     matrix_print(NN_OUTPUT(this));
-// }

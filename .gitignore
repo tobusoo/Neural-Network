@@ -1,2 +1,4 @@
 build
 .vscode
+model/*
+!model/nn_0.json
