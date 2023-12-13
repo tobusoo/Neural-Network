@@ -1,0 +1,2 @@
+add_subdirectory(xor)
+add_subdirectory(digit_recognition)
