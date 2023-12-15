@@ -55,6 +55,13 @@ NN::NN(json& model)
 
 NN::~NN()
 {
+    for (size_t i = 0; i < m_layers_count - 1; i++) {
+        matrix_free(a[i]);
+        matrix_free(b[i]);
+        matrix_free(w[i]);
+    }
+    matrix_free(a[m_layers_count - 1]);
+
     delete[] m_layers;
 }
 
