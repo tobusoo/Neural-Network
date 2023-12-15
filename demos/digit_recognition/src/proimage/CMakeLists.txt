@@ -10,7 +10,7 @@ target_link_libraries(
   ${target_name}
   PRIVATE
     m
-    nn
+    tobuso-nn
     sfml-graphics
 )
 

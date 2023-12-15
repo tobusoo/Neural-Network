@@ -11,13 +11,11 @@ target_sources(
     main.cpp
 )
 
-find_package(SFML 2.5 COMPONENTS graphics system window REQUIRED)
 
 target_link_libraries(
   ${target_name}
   PRIVATE
-    nn
-    nlohmann_json::nlohmann_json
+    tobuso-nn
     image_dataset
 )
 

@@ -10,9 +10,9 @@ target_link_libraries(
   ${target_name}
   PRIVATE
     m
-    nn
+    tobuso-nn
     proimage
-    dataset
+    tobuso-ds
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
