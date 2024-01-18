@@ -2,6 +2,7 @@
 #include <random>
 
 #include <dataset.hpp>
+namespace tbs {
 
 DataBatch::DataBatch() : n(0){};
 
@@ -41,3 +42,5 @@ DataBatch DataSet::get_batch(size_t index)
 {
     return *v.at(index);
 }
+
+} // namespace tbs

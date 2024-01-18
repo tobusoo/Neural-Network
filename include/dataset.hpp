@@ -7,6 +7,7 @@
 #include "matrix.hpp"
 
 namespace fs = std::filesystem;
+namespace tbs {
 
 struct DataBatch {
     using Matrices = std::vector<tbs::Matrix>;
@@ -36,3 +37,5 @@ public:
     size_t get_examples_count() const;
     DataBatch get_batch(size_t index);
 };
+
+} // namespace tbs
