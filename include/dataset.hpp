@@ -4,20 +4,20 @@
 #include <random>
 #include <vector>
 
-#include <nn/matrix.h>
+#include "matrix.hpp"
 
 namespace fs = std::filesystem;
 
 struct DataBatch {
-    using MatrixArray = std::vector<Matrix>;
+    using Matrices = std::vector<tbs::Matrix>;
 
-    MatrixArray inputs;
-    MatrixArray outputs;
+    Matrices inputs;
+    Matrices outputs;
     size_t n;
 
     DataBatch();
 
-    void add(Matrix in, Matrix out);
+    void add(tbs::Matrix in, tbs::Matrix out);
 };
 
 class DataSet {
