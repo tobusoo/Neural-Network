@@ -12,7 +12,7 @@ using Matrices = std::vector<Matrix>;
 
 class NN {
 private:
-    std::vector<Layer*> l; // layers
+    std::vector<Layer> l; // layers
     size_t input_size;
 
 public:
@@ -22,7 +22,7 @@ public:
     NN(NN&& other) = delete;
     NN& operator=(NN&& other) = delete;
     NN& operator=(const NN& other) = delete;
-    ~NN();
+    ~NN() = default;
 
     void rand(double min, double max) noexcept;
     void fill(double x) noexcept;
