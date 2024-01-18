@@ -16,8 +16,7 @@ inline static double derivative(double a, ACT_TYPE act_type)
     return 0;
 }
 
-NN::NN(size_t input_layer, std::vector<LayerWrapper>& layers)
-    : input_size(input_layer)
+NN::NN(size_t input_layer, Layers& layers) : input_size(input_layer)
 {
     if (input_size == 0) {
         fprintf(stderr, "Size of input layer must be more than 0!");
@@ -33,6 +32,7 @@ NN::NN(size_t input_layer, std::vector<LayerWrapper>& layers)
     assert(layer && "Could not alloc memory for new Layer");
     l.push_back(layer);
 
+    l.reserve(layers.size());
     for (size_t i = 1; i < layers.size(); ++i) {
         layer = new Layer(
                 layers[i - 1].size, layers[i].size, layers[i].act_type);
@@ -41,39 +41,62 @@ NN::NN(size_t input_layer, std::vector<LayerWrapper>& layers)
     }
 }
 
-NN::NN(json& model)
+NN::NN(json& data)
 {
-    // size_t layers_count = model["layers_count"];
+    size_t layers_count = data["layers_count"];
+    input_size = data["input_size"];
+    ACT_TYPE act_type = data["layer_1"]["ACT_TYPE"];
+    size_t layer_size = data["layer_1"]["size"];
+    l.reserve(layers_count);
 
-    // input_size = model["input_layer"]["size"];
+    auto layer = new Layer(input_size, layer_size, act_type);
+    assert(layer && "Could not alloc memory for new Layer");
+    auto v = data["layer_1"]["weights"];
+    std::copy(v.begin(), v.end(), layer->w.array);
+    v = data["layer_1"]["biases"];
+    std::copy(v.begin(), v.end(), layer->b.array);
 
-    // a.push_back(matrix_alloc(1, m_layers[0]));
-    // for (size_t i = 1; i < m_layers_count; i++) {
-    //     w.push_back(matrix_alloc(a[i - 1].cols, m_layers[i]));
-    //     b.push_back(matrix_alloc(1, m_layers[i]));
-    //     a.push_back(matrix_alloc(1, m_layers[i]));
-    // }
+    l.push_back(layer);
 
-    // for (size_t i = 0; i < m_layers_count - 1; i++) {
-    //     const auto& i_str = std::to_string(i + 1);
-    //     const auto& layers = "hidden_" + i_str;
-    //     const auto& bb = model[layers]["biasis"]["array"];
-    //     const auto& ww = model[layers]["weights"]["array"];
+    for (size_t i = 1; i < layers_count; ++i) {
+        const auto& str = std::to_string(i + 1);
+        const auto& layer_str = "layer_" + str;
+        size_t next_layer_size = data[layer_str]["size"];
+        act_type = data[layer_str]["ACT_TYPE"];
+        layer = new Layer(layer_size, next_layer_size, act_type);
+        assert(layer && "Could not alloc memory for new Layer");
 
-    //     std::copy(bb.begin(), bb.end(), b[i].m);
-    //     std::copy(ww.begin(), ww.end(), w[i].m);
-    // }
+        layer_size = next_layer_size;
+        v = data[layer_str]["weights"];
+        std::copy(v.begin(), v.end(), layer->w.array);
+        v = data[layer_str]["biases"];
+        std::copy(v.begin(), v.end(), layer->b.array);
 
-    // const auto& ww = model["output_layer"]["weights"]["array"];
-    // const auto& bb = model["output_layer"]["biasis"]["array"];
-    // std::copy(bb.begin(), bb.end(), b[m_layers_count - 2].m);
-    // std::copy(ww.begin(), ww.end(), w[m_layers_count - 2].m);
+        l.push_back(layer);
+    }
 }
 
 json NN::save()
 {
-    //
-    return json();
+    json data;
+    int k = 1;
+
+    data["input_size"] = input_size;
+    data["layers_count"] = l.size();
+    for (auto& i : l) {
+        const auto& str = std::to_string(k++);
+        const auto& layer = "layer_" + str;
+        double* end = i->w.array + (i->w.cols * i->w.rows);
+
+        std::vector<double> weights(i->w.array, end);
+        std::vector<double> biases(i->b.array, i->b.array + i->b.cols);
+        data[layer]["weights"] = weights;
+        data[layer]["biases"] = biases;
+        data[layer]["size"] = i->a.cols;
+        data[layer]["ACT_TYPE"] = i->act_type;
+    }
+
+    return data;
 }
 
 const Matrix* NN::output() const

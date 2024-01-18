@@ -9,13 +9,14 @@ namespace tbs {
 
 using json = nlohmann::json;
 using Matrices = std::vector<Matrix>;
+
 class NN {
 private:
     std::vector<Layer*> l; // layers
     size_t input_size;
 
 public:
-    NN(size_t input_layer, std::vector<LayerWrapper>& layers);
+    NN(size_t input_layer, Layers& layers);
     NN(json& model);
     ~NN();
 

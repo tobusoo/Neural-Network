@@ -2,7 +2,7 @@ project(nn)
 
 set(target_name tobuso-nn)
 
-add_library(${target_name} STATIC
+add_library(${target_name} SHARED
   matrix.cpp
   layer.cpp
   nn.cpp
