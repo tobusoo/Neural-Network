@@ -40,13 +40,22 @@ Layer::Layer(size_t prev_size, size_t size, ACT_TYPE function_type) noexcept
     }
 }
 
-Layer::Layer(Layer&& other)
+Layer::Layer(const Layer& other)
+    : a(other.a),
+      b(other.b),
+      w(other.w),
+      act_function(other.act_function),
+      act_type(other.act_type)
 {
-    other.a = a;
-    other.b = b;
-    other.w = w;
-    other.act_function = act_function;
-    other.act_type = act_type;
+}
+
+Layer::Layer(Layer&& other)
+    : a(std::move(other.a)),
+      b(std::move(other.b)),
+      w(std::move(other.w)),
+      act_function(other.act_function),
+      act_type(other.act_type)
+{
 }
 
 void Layer::rand(double min, double max) noexcept

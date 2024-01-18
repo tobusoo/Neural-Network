@@ -36,7 +36,10 @@ private:
 
 public:
     Layer(size_t prev_size, size_t size, ACT_TYPE function_type) noexcept;
+    Layer(const Layer& other);
     Layer(Layer&& other);
+    Layer& operator=(Layer&& other) = delete;
+    Layer& operator=(const Layer& other) = delete;
     ~Layer() = default;
 
     void rand(double min, double max) noexcept;
