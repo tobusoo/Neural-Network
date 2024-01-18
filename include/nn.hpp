@@ -18,6 +18,10 @@ private:
 public:
     NN(size_t input_layer, Layers& layers);
     NN(json& model);
+    NN(const NN& other) = delete;
+    NN(NN&& other) = delete;
+    NN& operator=(NN&& other) = delete;
+    NN& operator=(const NN& other) = delete;
     ~NN();
 
     void rand(double min, double max) noexcept;
