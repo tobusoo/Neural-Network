@@ -41,11 +41,7 @@ Layer::Layer(size_t prev_size, size_t size, ACT_TYPE function_type) noexcept
 }
 
 Layer::Layer(const Layer& other)
-    : a(other.a),
-      b(other.b),
-      w(other.w),
-      act_function(other.act_function),
-      act_type(other.act_type)
+    : a(other.a), b(other.b), w(other.w), act_function(other.act_function), act_type(other.act_type)
 {
 }
 

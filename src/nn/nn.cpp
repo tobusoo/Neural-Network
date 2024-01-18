@@ -22,9 +22,7 @@ NN::NN(size_t input_layer, Layers& layers) : input_size(input_layer)
         fprintf(stderr, "Size of input layer must be more than 0!");
         exit(EXIT_FAILURE);
     } else if (layers.size() == 0) {
-        fprintf(stderr,
-                "In addition to the input layer, there should be an out "
-                "layer at least!");
+        fprintf(stderr, "In addition to the input layer, there should be an out layer at least!");
         exit(EXIT_FAILURE);
     }
 
@@ -34,8 +32,7 @@ NN::NN(size_t input_layer, Layers& layers) : input_size(input_layer)
 
     l.reserve(layers.size());
     for (size_t i = 1; i < layers.size(); ++i) {
-        layer = new Layer(
-                layers[i - 1].size, layers[i].size, layers[i].act_type);
+        layer = new Layer(layers[i - 1].size, layers[i].size, layers[i].act_type);
         assert(layer && "Could not alloc memory for new Layer");
         l.push_back(layer);
     }
@@ -115,7 +112,7 @@ void NN::print() const noexcept
 
 void NN::forward(Matrix& input) noexcept
 {
-    assert(input.cols == input_size);
+    assert(input.cols == input_size && "Size of input matrix must be equal to size of input layer");
     l[0]->forward(input);
     for (size_t i = 1; i < l.size(); ++i) {
         l[i]->forward(*l[i - 1]);
@@ -131,8 +128,8 @@ double NN::cost(Matrices in, Matrices out) noexcept
     double cost = 0;
 
     for (size_t i = 0; i < n; ++i) {
-        assert(input_size == in[i].cols);
-        assert(out_layer_size == out[i].cols);
+        assert(input_size == in[i].cols && "Size of input matrix must be equal to size of input layer");
+        assert(out_layer_size == out[i].cols && "Size of out matrix must be equal to size of out layer");
 
         forward(in[i]);
         for (size_t j = 0; j < out_layer_size; ++j) {
@@ -164,6 +161,12 @@ void NN::backprop(NN& g, Matrices in, Matrices out, double rate)
     g.fill(0);
     size_t n = in.size();
     size_t layers_count = l.size();
+    Matrix* out_layer = &l[l.size() - 1]->a;
+    size_t out_layer_size = out_layer->cols;
+
+    // I hope the user don't provide the wrong Matrix for the input or output Matrices
+    assert(input_size == in[0].cols && "Size of input matrix must be equal to size of input layer");
+    assert(out_layer_size == out[0].cols && "Size of out matrix must be equal to size of out layer");
 
     for (size_t i = 0; i < n; ++i) {
         forward(in[i]);

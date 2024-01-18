@@ -12,11 +12,9 @@ struct Matrix {
 
     Matrix() = default;
     template <typename Iter>
-    [[nodiscard]] Matrix(
-            size_t rows, size_t cols, Iter begin, Iter end) noexcept;
+    [[nodiscard]] Matrix(size_t rows, size_t cols, Iter begin, Iter end) noexcept;
     [[nodiscard]] Matrix(size_t rows, size_t cols) noexcept;
-    [[nodiscard]] Matrix(
-            size_t rows, size_t cols, std::initializer_list<double> l);
+    [[nodiscard]] Matrix(size_t rows, size_t cols, std::initializer_list<double> l);
     Matrix(const Matrix& other);
     Matrix(Matrix&& other);
     Matrix& operator=(Matrix&& other);

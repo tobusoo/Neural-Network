@@ -12,9 +12,7 @@ inline static double rand_double(double min, double max) noexcept
 }
 
 template <typename Iter>
-[[nodiscard]] Matrix::Matrix(
-        size_t rows, size_t cols, Iter begin, Iter end) noexcept
-    : Matrix(rows, cols)
+[[nodiscard]] Matrix::Matrix(size_t rows, size_t cols, Iter begin, Iter end) noexcept : Matrix(rows, cols)
 {
     size_t k = 0;
     for (Iter i = begin; i != end && k < rows * cols; i++, k++) {
@@ -25,25 +23,22 @@ template <typename Iter>
 [[nodiscard]] Matrix::Matrix(size_t rows, size_t cols) noexcept
     : rows(rows), cols(cols), array(new double[rows * cols])
 {
-    assert(array);
+    assert(array && "Could not alloc memory for Matrix");
     memset(array, 0, cols * rows);
 }
 
-[[nodiscard]] Matrix::Matrix(
-        size_t rows, size_t cols, std::initializer_list<double> l)
+[[nodiscard]] Matrix::Matrix(size_t rows, size_t cols, std::initializer_list<double> l)
     : Matrix(rows, cols, l.begin(), l.end())
 {
 }
 
-Matrix::Matrix(const Matrix& other)
-    : rows(other.rows), cols(other.cols), array(new double[rows * cols])
+Matrix::Matrix(const Matrix& other) : rows(other.rows), cols(other.cols), array(new double[rows * cols])
 {
-    assert(array);
+    assert(array && "Could not alloc memory for Matrix");
     std::copy(other.array, other.array + cols * rows, array);
 }
 
-Matrix::Matrix(Matrix&& other)
-    : rows(other.rows), cols(other.cols), array(other.array)
+Matrix::Matrix(Matrix&& other) : rows(other.rows), cols(other.cols), array(other.array)
 {
     other.array = nullptr;
     other.rows = 0;
@@ -73,7 +68,7 @@ Matrix& Matrix::operator=(const Matrix& other)
         rows = other.rows;
         cols = other.cols;
         array = new double[rows * cols];
-        assert(array);
+        assert(array && "Could not alloc memory for Matrix");
 
         std::copy(other.array, other.array + cols * rows, array);
     }
@@ -100,8 +95,8 @@ void Matrix::fill(double x) noexcept
 
 void Matrix::sum(Matrix& other) noexcept
 {
-    assert(other.rows == rows);
-    assert(other.cols == cols);
+    assert(other.rows == rows && "The rows of matrices must be equal");
+    assert(other.cols == cols && "The cols of matrices must be equal");
     for (size_t i = 0; i < rows * cols; ++i)
         array[i] += other.array[i];
 }
