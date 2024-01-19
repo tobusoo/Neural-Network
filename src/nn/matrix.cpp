@@ -1,9 +1,10 @@
-#include <matrix.hpp>
-
 #include <algorithm>
 #include <cassert>
 #include <cstdio>
 #include <cstring>
+
+#include <matrix.hpp>
+
 namespace tbs {
 
 inline static double rand_double(double min, double max) noexcept

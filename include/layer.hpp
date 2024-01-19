@@ -19,11 +19,9 @@ struct LayerWrapper {
 
 using Layers = std::vector<LayerWrapper>;
 
-class Layer {
-    friend class NN;
+struct Layer {
     using ACT_F = double(double); // activation func
 
-private:
     Matrix a; // matrix of activation neurons
     Matrix b; // matrix of biases
     Matrix w; // matrix of weights
@@ -33,7 +31,6 @@ private:
 
     void forward(Layer& prev) noexcept;
 
-public:
     Layer(size_t prev_size, size_t size, ACT_TYPE function_type) noexcept;
     Layer(const Layer& other);
     Layer(Layer&& other);

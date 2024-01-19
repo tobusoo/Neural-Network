@@ -11,7 +11,7 @@ using json = nlohmann::json;
 using Matrices = std::vector<Matrix>;
 
 class NN {
-private:
+protected:
     std::vector<Layer> l; // layers
     size_t input_size;
 
