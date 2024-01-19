@@ -113,7 +113,7 @@ void NN::forward(Matrix& input) noexcept
     }
 }
 
-double NN::cost(Matrices in, Matrices out) noexcept
+double NN::cost(Matrices& in, Matrices& out) noexcept
 {
     assert(in.size() == out.size() && "Size of in and out must be equal");
     Matrix* out_layer = &l[l.size() - 1].a;
@@ -150,7 +150,7 @@ void NN::fill(double x) noexcept
     }
 }
 
-void NN::backprop(NN& g, Matrices in, Matrices out, double rate)
+void NN::backprop(NN& g, Matrices& in, Matrices& out, double rate)
 {
     g.fill(0);
     size_t n = in.size();

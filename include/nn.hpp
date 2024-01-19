@@ -26,9 +26,9 @@ public:
 
     void rand(double min, double max) noexcept;
     void fill(double x) noexcept;
-    double cost(Matrices in, Matrices out) noexcept;
+    double cost(Matrices& in, Matrices& out) noexcept;
     void forward(Matrix& input) noexcept;
-    void backprop(NN& g, Matrices in, Matrices out, double rate);
+    void backprop(NN& g, Matrices& in, Matrices& out, double rate);
     const Matrix* output() const;
 
     json save();
