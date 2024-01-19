@@ -6,10 +6,10 @@ namespace tbs {
 
 DataBatch::DataBatch() : n(0){};
 
-void DataBatch::add(tbs::Matrix in, tbs::Matrix out)
+void DataBatch::add(tbs::Matrix& in, tbs::Matrix& out)
 {
-    inputs.emplace_back(in);
-    outputs.emplace_back(out);
+    inputs.push_back(in);
+    outputs.push_back(out);
     n++;
 }
 
