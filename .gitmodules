@@ -1,6 +1,3 @@
 [submodule "demos/xor"]
 	path = demos/xor
 	url = git@github.com:tobusoo/xor.git
-[submodule "demos/--force"]
-	path = demos/--force
-	url = git@github.com:tobusoo/digit-recognition.git
