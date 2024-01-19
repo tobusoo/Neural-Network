@@ -1,0 +1,3 @@
+[submodule "demos/xor"]
+	path = demos/xor
+	url = git@github.com:tobusoo/xor.git
